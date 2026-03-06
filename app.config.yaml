@@ -6,6 +6,29 @@ application:
       d365-app-builder:
         license: Apache-2.0
         actions:
+          giftcard-balance:
+            function: actions/giftcard-balance/index.js
+            web: 'yes'
+            runtime: nodejs:22
+            inputs:
+              LOG_LEVEL: debug
+              D365_CLIENT_ID: $D365_CLIENT_ID
+              D365_CLIENT_SECRET: $D365_CLIENT_SECRET
+              D365_BASE_URL: $D365_BASE_URL
+              D365_OAUTH_ENDPOINT: $D365_OAUTH_ENDPOINT
+              D365_BALANCE_CHECK_ENDPOINT: $D365_BALANCE_CHECK_ENDPOINT
+            annotations:
+              require-adobe-auth: true
+              final: true
+          generic:
+            function: actions/generic/index.js
+            web: 'no'
+            runtime: nodejs:22
+            inputs:
+              LOG_LEVEL: debug
+            annotations:
+              require-adobe-auth: false
+              final: true
           newsletter-mailchimp:
             function: actions/newsletter-mailchimp/index.js
             web: 'no'
@@ -18,3 +41,6 @@ application:
             annotations:
               require-adobe-auth: false
               final: true
+extensions:
+  commerce/backend-ui/1:
+    $include: src/commerce-backend-ui-1/ext.config.yaml
